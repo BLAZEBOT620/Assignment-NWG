@@ -3,34 +3,39 @@ name: Python CI/CD Workflow
 on:
   push:
     branches:
-      - master  # Trigger on push to master branch
+      - master  # This triggers the pipeline when you push to the master branch
   pull_request:
     branches:
-      - master  # Trigger on pull request to master branch
+      - master  # This triggers the pipeline when you open a pull request to the master branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Runs on Ubuntu
-
+    runs-on: ubuntu-latest  # Uses an Ubuntu runner to run the actions
+    
     steps:
+      # Step 1: Checkout the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v2  # Checkout code from GitHub
+        uses: actions/checkout@v2  # This checks out your code
 
+      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Use Python 3.x
+          python-version: '3.x'  # Specify the Python version you want to use
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Install dependencies from requirements.txt
+          pip install -r requirements.txt  # This installs the dependencies listed in requirements.txt
 
-      - name: Run Python script
+      # Step 4: Run the Python script
+      - name: Run script
         run: |
-          python boto_2.py  # Replace with your actual Python script name
+          python boto_2.py  # This is the script you're running. Ensure it's named correctly and exists
 
+      # Step 5: Optional Deployment Step (if applicable)
       - name: Deploy (optional)
-        if: success()  # Only deploy if previous steps worked
+        if: success()  # Only deploy if the previous steps succeeded
         run: |
-          echo "Deploying to production..."  # Replace this with your actual deployment steps
+          echo "Deploying to production..."  # Replace with your actual deployment commands
