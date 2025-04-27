@@ -3,17 +3,17 @@ name: Python CI Workflow
 on:
   push:
     branches:
-      - master  # Trigger on push to master branch
+      - main  # Adjust this to your default branch if it's not 'main'
   pull_request:
     branches:
-      - master  # Trigger on pull requests to master branch
+      - main  # Trigger on pull requests to main branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Using Ubuntu for the build environment
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -23,15 +23,21 @@ jobs:
         with:
           python-version: '3.x'
 
-      # Step 3: Install dependencies from requirements.txt
+      # Step 3: Set up AWS Credentials
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Set the appropriate region, e.g., us-west-2
+
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 4: Run the Python script
+      # Step 5: Run Python script
       - name: Run Python script
         run: |
-          python boto_2.py  # Ensure the script is named correctly and exists
-
-      # Step 5: Optional: Any additional steps (like testing or deploying)
+          python boto_2.py  # Ensure boto_2.py is in the root directory
