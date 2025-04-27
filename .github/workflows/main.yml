@@ -13,24 +13,28 @@ jobs:
     runs-on: ubuntu-latest  # Uses an Ubuntu machine to run the actions
     
     steps:
+      # Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v2  # This checks out your code
 
+      # Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'  # Specify the Python version
 
+      # Install dependencies
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip  # Upgrade pip to the latest version
           pip install boto3  # Install boto3 for AWS SDK
           
-
+      # Run your Python script
       - name: Run script
         run: |
-          python boto_2.py  # Replace this with the name of your script
+          python boto_2.py  # Make sure the script is named boto_2.py and exists in the root folder
 
+      # Optional deployment step, replace with your actual deployment commands
       - name: Deploy (optional)
         if: success()  # Only deploy if previous steps succeed
         run: |
