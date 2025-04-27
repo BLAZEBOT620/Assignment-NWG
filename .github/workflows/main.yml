@@ -15,7 +15,7 @@ jobs:
     steps:
       # Step 1: Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2  # This checks out your code
 
       # Step 2: Set up Python environment
       - name: Set up Python
@@ -39,3 +39,11 @@ jobs:
 
       # Step 5: Run the Python script
       - name: Run script
+        run: |
+          python boto_2.py  # Ensure that boto_2.py is in the root of your repository
+
+      # Step 6: Optional Deployment Step (If needed)
+      - name: Deploy (optional)
+        if: success()
+        run: |
+          echo "Deploying to production..."  # Replace with your actual deployment command
