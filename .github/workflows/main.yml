@@ -11,25 +11,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
-    
+
     steps:
       # Step 1: Checkout code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Step 2: Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.10'  # More specific than '3.x' for stability
 
       # Step 3: Set up AWS Credentials
-      - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Set the appropriate region, e.g., us-west-2
+          aws-region: ap-south-1  # Adjust to your preferred AWS region
 
       # Step 4: Install dependencies
       - name: Install dependencies
@@ -38,6 +38,6 @@ jobs:
           pip install -r requirements.txt
 
       # Step 5: Run Python script
-      - name: Run Python script
+      - name: Run boto_2.py script
         run: |
-          python boto_2.py  # Ensure boto_2.py is in the root directory
+          python boto_2.py
